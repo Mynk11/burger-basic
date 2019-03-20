@@ -2,6 +2,12 @@ import React from 'react';
 import './Burger.css';
 import BurgerIngredient from './BurgerIngredients/BurgerIngredients';
 const Burger = (props) => {
+    const transformIngredients = Object.keys(props.ingredients).map(igkey => {
+        return [...Array(props.ingredients[igkey])].map((ko, i) => {
+            console.log("ingredients is", ko, igkey);
+            <BurgerIngredient key={igkey + i} type={igkey} />
+        });;
+    });
     return (
         <div className="Burger">
             <BurgerIngredient type="bread-top"></BurgerIngredient>
