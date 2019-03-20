@@ -1,13 +1,13 @@
 import React from 'react';
-import Aux from '../../hoc/Aux';
-import classes from './Layout.css';
+import Aux from '../../hoc/Auxx';
+import './Layout.css';
 const layout = (props) => {
     return (
         <Aux>
             <div>
                 <div>Toolbar , Sidedrawer, Backdrop</div>
-                <main className={classes.marginTop}>
-                    {classes.marginTop}
+                <main className="marginTop">
+
                     {props.children}
                 </main>
             </div>
