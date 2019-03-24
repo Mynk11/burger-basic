@@ -135,7 +135,7 @@ class BurgerBuilder extends Component {
                             price={this.state.totalPrice}></OrderSummary>
 
 
-                    </Modal>) : <p>Not purchaseable</p>
+                    </Modal>) : <p></p>
 
                 }
             </Aux >
