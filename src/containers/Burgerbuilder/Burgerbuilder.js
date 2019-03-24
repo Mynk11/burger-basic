@@ -6,6 +6,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import ButtonCheckOut from '../../components/Burger/BuildControls/BuildControl/ButtonCheckout/ButtonCheckout';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import BackDrop from '../../components/UI/Backdrop/Backdrop';
 const INDEGREDIENTS_PRICE = {
     salad: 0.5,
     bacon: 2,
@@ -69,6 +70,7 @@ class BurgerBuilder extends Component {
 
     UpdatePurchaseable = (updatedIngredients) => {
 
+        console.log("updatedIngredients.totalPrice", updatedIngredients.totalPrice);
         if (this.state.totalPrice > 4) {
             this.setState((prevState) =>
                 ({ purchaseable: !prevState.purchaseable })
@@ -85,9 +87,23 @@ class BurgerBuilder extends Component {
     }
 
     Purchasehandler = () => {
+        if (this.state.totalPrice > 4) {
+            this.setState({ purchasing: true });
+            // this.setState((prevState) => {
+            //     purchasing: true
+            // });
+        }
+        else {
+            console.log("Not purchasable", this.state.purchasing);
+        }
+    }
 
-        this.setState({ purchasing: true });
+    PurchaseCancelHandler = () => {
+        this.setState({ purchasing: false });
+    }
 
+    PurchaseContinueHnadler = () => {
+        alert('Order Confirmes');
     }
 
     render() {
@@ -108,11 +124,15 @@ class BurgerBuilder extends Component {
                 <BuildControls disableInfo={disableControl}
                     price={this.state.totalPrice} addingredient={this.addIngredientHandler} removeIngredient={this.removeIngredientHandler}></BuildControls>
                 <ButtonCheckOut Order={this.Purchasehandler} purchaseable={this.state.purchaseable}></ButtonCheckOut>
+                <BackDrop show={this.state.purchasing} purchaseCancel={this.PurchaseCancelHandler}></BackDrop>
                 {this.state.purchasing ?
                     (<Modal show={this.state.purchasing}>
 
 
-                        <OrderSummary ingredients={this.state.ingredients}></OrderSummary>
+                        <OrderSummary cancel={this.PurchaseCancelHandler}
+                            submit={this.PurchaseContinueHnadler}
+                            ingredients={this.state.ingredients}
+                            price={this.state.totalPrice}></OrderSummary>
 
 
                     </Modal>) : <p>Not purchaseable</p>
