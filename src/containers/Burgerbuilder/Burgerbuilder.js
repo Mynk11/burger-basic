@@ -70,32 +70,31 @@ class BurgerBuilder extends Component {
 
     UpdatePurchaseable = (updatedIngredients) => {
 
-        console.log("updatedIngredients.totalPrice", updatedIngredients.totalPrice);
-        if (this.state.totalPrice > 4) {
-            this.setState((prevState) =>
-                ({ purchaseable: !prevState.purchaseable })
-            )
+        console.log("Not purchasable", this.state.purchaseable);
 
-        } else {
-            this.setState((prevState) =>
-                ({ purchaseable: false })
-            )
+        this.setState((prevState) => {
+            console.log("prevState", prevState);
+            if (prevState.totalPrice !== 4) {
+                return { purchaseable: true };
+            } else {
+                return { purchaseable: false };
+            }
+        });
 
-        }
-        console.log("this.state.totalPrice", this.state.purchaseable);
 
     }
 
     Purchasehandler = () => {
-        if (this.state.totalPrice > 4) {
-            this.setState({ purchasing: true });
-            // this.setState((prevState) => {
-            //     purchasing: true
-            // });
-        }
-        else {
-            console.log("Not purchasable", this.state.purchasing);
-        }
+        console.log("purchase handler is called");
+
+        this.setState((prevState) => {
+            console.log("prevState", prevState);
+            if (this.state.totalPrice !== 4) {
+                return { purchasing: true };
+            } else {
+                return { purchasing: false };
+            }
+        });
     }
 
     PurchaseCancelHandler = () => {

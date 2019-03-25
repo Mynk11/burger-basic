@@ -1,7 +1,7 @@
 import React from 'react'
 import './Button.css';
 const Button = (props) => {
-    console.log()
+
     return <button className={'Button ' + props.btnType} onClick={props.clicked}>{props.children}</button>;
 }
 
