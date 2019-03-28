@@ -7,6 +7,7 @@ import ButtonCheckOut from '../../components/Burger/BuildControls/BuildControl/B
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import BackDrop from '../../components/UI/Backdrop/Backdrop';
+import axios from '../../axios-orders';
 const INDEGREDIENTS_PRICE = {
     salad: 0.5,
     bacon: 2,
@@ -102,6 +103,24 @@ class BurgerBuilder extends Component {
     }
 
     PurchaseContinueHnadler = () => {
+        const postData = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer: {
+                name: "Aniket",
+                address: "shakarpur Delhi",
+                country: "india",
+                mobileNo: '909878767854'
+            },
+            deliveryMethod: "fastest",
+            paymentMode: 'online',
+            email: 'May@me.com'
+        }
+        axios.post('/orders.json', postData).then(response => {
+            console.log("Response from server is:", response);
+        }, (err) => {
+            console.log("Error from server is:", err);
+        });
         alert('Order Confirmes');
     }
 
