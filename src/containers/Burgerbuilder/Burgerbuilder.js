@@ -8,6 +8,8 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import BackDrop from '../../components/UI/Backdrop/Backdrop';
 import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import ErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 const INDEGREDIENTS_PRICE = {
     salad: 0.5,
     bacon: 2,
@@ -27,7 +29,8 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 4,
         purchaseable: false,
-        purchasing: false
+        purchasing: false,
+        loading: false
     }
 
 
@@ -103,6 +106,7 @@ class BurgerBuilder extends Component {
     }
 
     PurchaseContinueHnadler = () => {
+        this.setState({ loading: true });
         const postData = {
             ingredients: this.state.ingredients,
             price: this.state.totalPrice,
@@ -117,11 +121,17 @@ class BurgerBuilder extends Component {
             email: 'May@me.com'
         }
         axios.post('/orders.json', postData).then(response => {
+            this.setState((prevState) => {
+                return { loading: false }
+            });
             console.log("Response from server is:", response);
         }, (err) => {
+            this.setState((prevState) => {
+                return { loading: false }
+            });
             console.log("Error from server is:", err);
         });
-        alert('Order Confirmes');
+
     }
 
     render() {
@@ -132,9 +142,17 @@ class BurgerBuilder extends Component {
         for (let key in disableControl) {
             disableControl[key] = disableControl[key] <= 0;
         }
+        let orderSum = <OrderSummary cancel={this.PurchaseCancelHandler}
+            submit={this.PurchaseContinueHnadler}
+            ingredients={this.state.ingredients}
+            price={this.state.totalPrice}></OrderSummary>
+        if (this.state.loading) {
+            orderSum = <Spinner />
+        }
 
         return (
             <Aux>
+                <ErrorHandler error={this.state.error} />
                 <div>
                     <Burger ingredients={this.state.ingredients}></Burger>
                 </div>
@@ -147,10 +165,11 @@ class BurgerBuilder extends Component {
                     (<Modal show={this.state.purchasing}>
 
 
-                        <OrderSummary cancel={this.PurchaseCancelHandler}
+                        {/* <OrderSummary cancel={this.PurchaseCancelHandler}
                             submit={this.PurchaseContinueHnadler}
                             ingredients={this.state.ingredients}
-                            price={this.state.totalPrice}></OrderSummary>
+                            price={this.state.totalPrice}></OrderSummary> */}
+                        {orderSum}
 
 
                     </Modal>) : <p></p>
