@@ -152,7 +152,7 @@ class BurgerBuilder extends Component {
 
         return (
             <Aux>
-                <ErrorHandler error={this.state.error} />
+                <ErrorHandler clicked={this.state.PurchaseCancelHandler} />
                 <div>
                     <Burger ingredients={this.state.ingredients}></Burger>
                 </div>
